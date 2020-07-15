@@ -40,13 +40,15 @@
             this.sizeScaleMin = new System.Windows.Forms.Label();
             this.slideScaleMax = new System.Windows.Forms.Label();
             this.slideScaleValue = new System.Windows.Forms.Label();
-            this.checkBoxNumbers = new System.Windows.Forms.CheckBox();
             this.checkBoxSymbols = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.saveFile = new System.Windows.Forms.Button();
             this.openFolderDialogBtn = new System.Windows.Forms.Button();
             this.pathLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pathValue = new System.Windows.Forms.Label();
+            this.existingFileCheck = new System.Windows.Forms.CheckBox();
+            this.locateExistingFile = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.sizeScale)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,16 +165,6 @@
             this.slideScaleValue.Size = new System.Drawing.Size(0, 13);
             this.slideScaleValue.TabIndex = 11;
             // 
-            // checkBoxNumbers
-            // 
-            this.checkBoxNumbers.AutoSize = true;
-            this.checkBoxNumbers.Location = new System.Drawing.Point(550, 200);
-            this.checkBoxNumbers.Name = "checkBoxNumbers";
-            this.checkBoxNumbers.Size = new System.Drawing.Size(114, 17);
-            this.checkBoxNumbers.TabIndex = 12;
-            this.checkBoxNumbers.Text = "Numbers Required";
-            this.checkBoxNumbers.UseVisualStyleBackColor = true;
-            // 
             // checkBoxSymbols
             // 
             this.checkBoxSymbols.AutoSize = true;
@@ -189,7 +181,7 @@
             this.saveFile.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.saveFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveFile.Location = new System.Drawing.Point(339, 412);
+            this.saveFile.Location = new System.Drawing.Point(347, 412);
             this.saveFile.Name = "saveFile";
             this.saveFile.Size = new System.Drawing.Size(73, 26);
             this.saveFile.TabIndex = 15;
@@ -214,21 +206,47 @@
             this.pathLabel.AutoSize = true;
             this.pathLabel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.pathLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pathLabel.Location = new System.Drawing.Point(533, 382);
+            this.pathLabel.Location = new System.Drawing.Point(509, 382);
             this.pathLabel.Name = "pathLabel";
             this.pathLabel.Size = new System.Drawing.Size(93, 13);
             this.pathLabel.TabIndex = 17;
             this.pathLabel.Text = "Save Location:";
             // 
-            // label1
+            // pathValue
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(533, 412);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            this.pathValue.AutoSize = true;
+            this.pathValue.Location = new System.Drawing.Point(509, 412);
+            this.pathValue.Name = "pathValue";
+            this.pathValue.Size = new System.Drawing.Size(0, 13);
+            this.pathValue.TabIndex = 18;
+            this.pathValue.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // existingFileCheck
+            // 
+            this.existingFileCheck.AutoSize = true;
+            this.existingFileCheck.Location = new System.Drawing.Point(512, 352);
+            this.existingFileCheck.Name = "existingFileCheck";
+            this.existingFileCheck.Size = new System.Drawing.Size(96, 17);
+            this.existingFileCheck.TabIndex = 19;
+            this.existingFileCheck.Text = "Add to Existing";
+            this.existingFileCheck.UseVisualStyleBackColor = true;
+            this.existingFileCheck.CheckedChanged += new System.EventHandler(this.existingFileCheck_CheckedChanged);
+            // 
+            // locateExistingFile
+            // 
+            this.locateExistingFile.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.locateExistingFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.locateExistingFile.Location = new System.Drawing.Point(685, 316);
+            this.locateExistingFile.Name = "locateExistingFile";
+            this.locateExistingFile.Size = new System.Drawing.Size(77, 43);
+            this.locateExistingFile.TabIndex = 20;
+            this.locateExistingFile.Text = "Choose Existing";
+            this.locateExistingFile.UseVisualStyleBackColor = false;
+            this.locateExistingFile.Click += new System.EventHandler(this.locateExistingFile_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -236,12 +254,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.locateExistingFile);
+            this.Controls.Add(this.existingFileCheck);
+            this.Controls.Add(this.pathValue);
             this.Controls.Add(this.pathLabel);
             this.Controls.Add(this.openFolderDialogBtn);
             this.Controls.Add(this.saveFile);
             this.Controls.Add(this.checkBoxSymbols);
-            this.Controls.Add(this.checkBoxNumbers);
             this.Controls.Add(this.slideScaleValue);
             this.Controls.Add(this.slideScaleMax);
             this.Controls.Add(this.sizeScaleMin);
@@ -278,13 +297,15 @@
         private System.Windows.Forms.Label sizeScaleMin;
         private System.Windows.Forms.Label slideScaleMax;
         private System.Windows.Forms.Label slideScaleValue;
-        private System.Windows.Forms.CheckBox checkBoxNumbers;
         private System.Windows.Forms.CheckBox checkBoxSymbols;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button saveFile;
         private System.Windows.Forms.Button openFolderDialogBtn;
         private System.Windows.Forms.Label pathLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label pathValue;
+        private System.Windows.Forms.CheckBox existingFileCheck;
+        private System.Windows.Forms.Button locateExistingFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

@@ -17,7 +17,7 @@ namespace PasswordGenerator
         public Form1()
         {
             InitializeComponent();
-
+            locateExistingFile.Visible = false;
         }
 
 
@@ -26,7 +26,6 @@ namespace PasswordGenerator
             string account = accountNameInput.Text;
             string login = loginInput.Text;
             int length = sizeScale.Value;
-
             passwordDisplay.Text = generateRandomPass(length);
             
 
@@ -95,12 +94,17 @@ namespace PasswordGenerator
 
         private void openFolderDialog_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.ShowDialog();
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                pathValue.Text = folderBrowserDialog1.SelectedPath;
+            }
         }
 
         private void saveFile_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.SelectedPath == "")
+            if (pathValue.Text == "")
             {
                 string message = "You must select a directory before saving.";
                 string caption = "No Path Selected";
@@ -110,26 +114,95 @@ namespace PasswordGenerator
                 MessageBox.Show(message, caption, buttons);
 
             }
+            else if (accountNameInput.Text == "")
+            {
+                string message = "You must add an account name.";
+                string caption = "No Account Supplied";
+
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+
+                MessageBox.Show(message, caption, buttons);
+            }
+            else if (loginInput.Text == "")
+            {
+                string message = "You must add a login name.";
+                string caption = "No Login Supplied";
+
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+
+                MessageBox.Show(message, caption, buttons);
+            }
+            else if (passwordDisplay.Text == "")
+            {
+                string message = "You have not generated a password. Please click 'Generate' to create a password before saving.";
+                string caption = "No Password Detected";
+
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+
+                MessageBox.Show(message, caption, buttons);
+
+            }
             else
             {
-                string path = folderBrowserDialog1.SelectedPath;
+                string fullPath = null;
 
-                string extension = "\\" + accountNameInput.Text + ".txt";
-
-                string fullPath = path + extension;
-
-                using (StreamWriter sw = File.CreateText(fullPath)) 
+                if (existingFileCheck.Checked)
                 {
-                    sw.WriteLine(accountNameInput.Text);
-                    sw.WriteLine("");
-                    sw.WriteLine("  Login: " + loginInput.Text);
-                    sw.WriteLine("  Password: " + passwordDisplay.Text);
+                    fullPath = pathValue.Text;
+
+                    using (StreamWriter sw = new StreamWriter(fullPath, true))
+                    {
+                        sw.WriteLine(accountNameInput.Text);
+                        sw.WriteLine("");
+                        sw.WriteLine("  Login: " + loginInput.Text);
+                        sw.WriteLine("  Password: " + passwordDisplay.Text);
+                    }
                 }
+                else
+                {
+                    string promptValue = Prompt.ShowDialog("Name your file:", "Name");
+                    fullPath = pathValue + promptValue + ".txt";
+
+                    using (StreamWriter sw = File.CreateText(fullPath))
+                    {
+                        sw.WriteLine(accountNameInput.Text);
+                        sw.WriteLine("");
+                        sw.WriteLine("  Login: " + loginInput.Text);
+                        sw.WriteLine("  Password: " + passwordDisplay.Text);
+                    }
+                }
+
+               
             }
         }
 
         private void label1_Click_1(object sender, EventArgs e)
         {
+
+        }
+
+        private void existingFileCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (existingFileCheck.Checked)
+            {
+                locateExistingFile.Visible = true;
+                openFolderDialogBtn.Visible = false;
+                locateExistingFile.Location = new Point(685, 382);
+
+            }
+            else
+            {
+                locateExistingFile.Visible = false;
+                openFolderDialogBtn.Visible = true;
+            }
+
+            pathValue.Text = "";
+        }
+
+        private void locateExistingFile_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            pathValue.Text = openFileDialog1.FileName;
 
         }
     }
